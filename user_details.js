@@ -41,6 +41,23 @@ app.post("/user",async function(req,res){
     }
 })
 
+app.get("/user",async function(req,res){
+    let client;
+    try{
+        client = await mongoClient.connect(url)
+        let db = client.db("userdetails")
+        let users = await db.collection("users").find().toArray()
+        client.close()
+        res.json({
+            users
+        })
+        res.end()
+    }catch(error){
+        client.close()
+        console.log(error)
+    }
+})
+
 
 
 
